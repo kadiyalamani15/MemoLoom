@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="640" prefWidth="1024" style="-fx-background-color: #C9BBBB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="640" prefWidth="1024" style="-fx-background-color: #C9BBBB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
     <GridPane prefHeight="640" prefWidth="1024">
         <columnConstraints>
             <ColumnConstraints percentWidth="60" />
@@ -66,11 +66,11 @@
             <Label style="-fx-font-family: 'Inter'; -fx-font-size: 20; -fx-padding: 0 0 8 0; -fx-font-weight: bold;" text="Ready to Transform Your Learning Experience?" wrapText="true" />
             <Label style="-fx-font-size: 18;" text="New Here?" />
             <VBox alignment="CENTER" spacing="5" style="-fx-font-size: 16;">
-                <TextField promptText="Name" />
+                <TextField fx:id="nameTextField" promptText="Name" />
                 <TextField promptText="Email" />
                 <PasswordField promptText="Password" />
                 <PasswordField promptText="Confirm Password" />
-                <Button style="-fx-background-color: #A6808C;" text="Sign Up">
+                <Button onAction="#handleSignUpAction" style="-fx-background-color: #A6808C;" text="Sign Up">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
