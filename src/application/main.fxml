@@ -66,7 +66,7 @@
             <Label style="-fx-font-family: 'Inter'; -fx-font-size: 20; -fx-padding: 0 0 8 0; -fx-font-weight: bold;" text="Ready to Transform Your Learning Experience?" wrapText="true" />
             <Label style="-fx-font-size: 18;" text="New Here?" />
             <VBox alignment="CENTER" spacing="5" style="-fx-font-size: 16;">
-                <TextField fx:id="nameTextField" promptText="Name" />
+                <TextField fx:id="usernameTextField" promptText="Name" />
                 <TextField promptText="Email" />
                 <PasswordField promptText="Password" />
                 <PasswordField promptText="Confirm Password" />

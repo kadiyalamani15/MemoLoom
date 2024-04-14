@@ -22,24 +22,28 @@ import java.io.File;
 public class NextSceneController {
 
     @FXML
-    private Label nameLabel;
+    private Label nameLabel; // Label to display the username
     @FXML
-    private FlowPane setsFlowPane;
+    private FlowPane setsFlowPane; // Container for sets
     @FXML
-    private Button addButton;
+    private Button addButton; // Button for adding new sets
 
     private static String name;
-    private int untitledCount = 1;
+    private int untitledCount = 1; // Counter for default set names
 
-    public static void setName(String newName) {
+    // Sets the user name and updates the label
+    public void setName(String newName) {
         name = newName;
+        nameLabel.setText(name);
     }
 
+    // Initializes the controller and setups up the add button
     public void initialize() {
         nameLabel.setText(name);
         setupAddButtonMenu();
     }
 
+    // Sets up the context menu for the add button with options
     private void setupAddButtonMenu() {
         ContextMenu addMenu = new ContextMenu();
         MenuItem createFlashCardsItem = new MenuItem("Create FlashCards");
@@ -56,10 +60,12 @@ public class NextSceneController {
         });
     }
 
+    // Handles the creation of a new set
     private void handleAddSet() {
         createSet("");
     }
 
+    // Creates a visual representation of a set
     private void createSet(String setName) {
         Rectangle newSetRect = new Rectangle(106, 105);
         newSetRect.setFill(Color.TRANSPARENT);
@@ -80,24 +86,26 @@ public class NextSceneController {
         Platform.runLater(setNameField::requestFocus);
     }
 
+    // Sets up interactions for a set box
     private void setupSetInteractions(VBox setBox, TextField setNameField) {
         setNameField.setOnAction(e -> convertToLabel(setNameField, setBox));
 
         setNameField.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal) { // Focus lost
+            if (!newVal) {
                 convertToLabel(setNameField, setBox);
             }
         });
 
         setBox.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-                openNewScene(); // Double click to open
+                openNewScene(); // Open the set
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 showContextMenu(setBox, setNameField, event.getScreenX(), event.getScreenY());
             }
         });
     }
 
+    // Converts a TextField to a Label after editing
     private void convertToLabel(TextField setNameField, VBox parentBox) {
         String text = setNameField.getText().trim();
         if (text.isEmpty()) {
@@ -111,6 +119,7 @@ public class NextSceneController {
         parentBox.getChildren().set(1, setLabel);
     }
 
+    // Displays a context menu for a set box
     private void showContextMenu(VBox setBox, TextField setNameField, double x, double y) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem openItem = new MenuItem("Open");
@@ -126,6 +135,7 @@ public class NextSceneController {
         contextMenu.show(setBox, x, y);
     }
 
+    // Allows renaming of a set
     private void renameSet(VBox setBox) {
         TextField setNameField = new TextField(((Label) setBox.getChildren().get(1)).getText());
         setNameField.setMaxWidth(106);
@@ -138,11 +148,12 @@ public class NextSceneController {
         setNameField.requestFocus();
     }
 
+    // Placeholder method to open a new scene
     private void openNewScene() {
-        // Placeholder for opening a new scene
         System.out.println("Open New Scene");
     }
 
+    // Handles the import of sets from a CSV file
     private void handleImportCSV() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open CSV File");
@@ -153,7 +164,3 @@ public class NextSceneController {
         }
     }
 }
-
-
-
-
