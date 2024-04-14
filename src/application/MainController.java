@@ -21,6 +21,9 @@ public class MainController {
      */
     public void handleSignUpAction(ActionEvent event) {
         try {
+        	// Set the user name in singleton
+        	UserManager.getInstance().setUserName(usernameTextField.getText()); 
+        	
             // Load the Home scene FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
             Parent nextSceneRoot = loader.load();
@@ -28,7 +31,7 @@ public class MainController {
             // Retrieve the controller associated with the Home.fxml file
             NextSceneController nextSceneController = loader.getController();
             // Pass the username entered in the TextField to the NextSceneController
-            nextSceneController.setName(usernameTextField.getText());
+            nextSceneController.setUser(usernameTextField.getText());
 
             // Create a new scene with the loaded FXML root
             Scene nextScene = new Scene(nextSceneRoot);
@@ -39,5 +42,10 @@ public class MainController {
             // Handle possible IOException from loading the FXML
             e.printStackTrace();
         }
+    }
+    
+ // Resets the username text field or any other necessary UI components
+    public void resetUsername() {
+        usernameTextField.setText(""); // Clear the text field
     }
 }

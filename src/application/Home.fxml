@@ -33,7 +33,7 @@
 		<!-- Left Pane -->
 		<VBox style="-fx-background-color: #C9BBBB;"
 			GridPane.columnIndex="0">
-			<Button text="Shrink" VBox.vgrow="NEVER">
+			<Button onAction="#logout" text="Logout" VBox.vgrow="NEVER">
 				<VBox.margin>
 					<Insets left="20.0" top="32.0" />
 				</VBox.margin>
@@ -88,7 +88,7 @@
 						<Insets left="20.0" top="160.0" />
 					</HBox.margin>
 				</ImageView>
-				<Label fx:id="nameLabel"
+				<Label fx:id="userName"
 					style="-fx-font-size: 14; -fx-font-family: 'Inter';">
 					<HBox.margin>
 						<Insets left="12.0" top="160.0" />
