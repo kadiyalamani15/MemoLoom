@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import application.FlashCardList;
@@ -18,7 +19,7 @@ import application.FlashCard;
 public class FlashcardController {
 
 	@FXML
-	private Label questionLabel;
+	private TextArea questionTextArea;
 	@FXML
 	private Label answerLabel;
 	@FXML
@@ -46,7 +47,7 @@ public class FlashcardController {
 			return;
 		FlashCard card = cards.get(index);
 		setLabel.setText(card.getSetName());
-		questionLabel.setText(card.getQuestion());
+		questionTextArea.setText(card.getQuestion());
 		answerLabel.setText(card.getAnswer()); // Set the answer keyword
 		currentIndex = index;
 	}
@@ -78,7 +79,7 @@ public class FlashcardController {
 			nextSceneController.setUser(UserManager.getInstance().getUserName());
 
 			// Get the stage from an existing component
-			Stage stage = (Stage) questionLabel.getScene().getWindow();
+			Stage stage = (Stage) questionTextArea.getScene().getWindow();
 			stage.setScene(new Scene(root));
 			stage.show();
 		} catch (IOException e) {
