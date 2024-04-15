@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,7 +30,32 @@ public class FlashCardList {
 	}
 
 	// Method to get unique sets for the user
-	public Set<String> getUserSets() {
+	public Set<SetCard> getUserSets() {
+//    	System.out.println("Debug - Fired getUserSets");
+		Set<SetCard> sets = new HashSet<>();
+		try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				// Skip empty lines or lines that effectively contain only commas
+				if (line.trim().isEmpty() || line.matches("^,+$")) {
+					System.out.println("Skipping empty or malformed line: " + line);
+					continue;
+				}
+
+				String[] values = line.split(",");
+				// Check if array has the minimum expected length and the user matches
+				if (values[0].equals(this.user) && !values[1].isEmpty()) {
+					SetCard card = new SetCard(values[1], values[0], values[2]);
+					sets.add(card); // Add set name
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sets;
+	}
+	
+	public Set<String> getUserSetNames() {
 //    	System.out.println("Debug - Fired getUserSets");
 		Set<String> sets = new HashSet<>();
 		try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
@@ -178,5 +204,12 @@ public class FlashCardList {
 			return false;
 		}
 	}
+	
+	public void sortByName(List<SetCard> setCards) {
+	    Collections.sort(setCards, (card1, card2) -> card1.getName().compareToIgnoreCase(card2.getName()));
+	}
 
+    public void sortByTime(List<SetCard> setCards) {
+        Collections.sort(setCards, (card1, card2) -> card1.getTimestamp().compareTo(card2.getTimestamp()));
+    }
 }

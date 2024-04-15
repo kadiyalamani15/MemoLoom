@@ -121,9 +121,9 @@
 						<ButtonBar>
 							<buttons>
 								<Button alignment="CENTER" mnemonicParsing="false"
-									text="Date" />
+									text="Date" onAction="#sortSetByDate"/>
 								<Button alignment="CENTER" mnemonicParsing="false"
-									text="Name" />
+									text="Name" onAction="#sortSetByName"/>
 							</buttons>
 							<HBox.margin>
 								<Insets right="160.0" />
@@ -151,6 +151,9 @@
 					<Button fx:id="addButton" text="+"
 						style="-fx-border-style: dashed; -fx-border-color: black; -fx-background-color: transparent; -fx-pref-width: 106; -fx-pref-height: 105;" />
 						<TextField style="-fx-opacity:0"/>
+				</VBox>
+				<VBox fx:id="setsContainer">
+    				<!-- other components or empty -->
 				</VBox>
 			</FlowPane>
 		</VBox>

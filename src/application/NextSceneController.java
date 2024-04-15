@@ -24,7 +24,12 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
+
+import javax.management.loading.PrivateClassLoader;
 
 public class NextSceneController {
 
@@ -34,6 +39,8 @@ public class NextSceneController {
 	private FlowPane setsFlowPane; // Container for sets
 	@FXML
 	private Button addButton; // Button for adding new sets
+	@FXML
+	private VBox setsContainer;
 
 	private static String name;
 
@@ -54,14 +61,16 @@ public class NextSceneController {
 //		System.out.println("Debug - Fired loadUserSets");
 		FlashCardList flashCardList = new FlashCardList(userName.getText());
 //		System.out.println("Debug - userName: " + userName.getText());
-		Set<String> sets = flashCardList.getUserSets();
+		Set<SetCard> sets = flashCardList.getUserSets();
 //		System.out.println(sets);
 		sets.forEach(this::displaySet); // Display each set
 	}
 
 	// Display a set visually in the setsFlowPane
-	private void displaySet(String setName) {
+	private void displaySet(SetCard card) {
 //		System.out.println("Debug - Fired displaySet");
+		
+		String setName = card.getName();
 		Label setLabel = new Label(setName);
 		setLabel.setMaxWidth(106);
 		setLabel.setAlignment(Pos.CENTER);
@@ -69,7 +78,7 @@ public class NextSceneController {
 		setRect.setStroke(Color.BLACK);
 		VBox setBox = new VBox(setRect, setLabel);
 		setBox.setAlignment(Pos.CENTER);
-		setsFlowPane.getChildren().add(setBox);
+		setsContainer.getChildren().add(setBox);
 		setupSetInteractions(setBox, setLabel);
 	}
 
@@ -109,7 +118,7 @@ public class NextSceneController {
 		setBox.setAlignment(Pos.CENTER);
 		FlowPane.setMargin(setBox, new Insets(12));
 
-		setsFlowPane.getChildren().add(setBox);
+		setsContainer.getChildren().add(setBox);
 
 		setupSetInteractions(setBox, setNameField);
 
@@ -151,7 +160,7 @@ public class NextSceneController {
 
 	    // Ensuring the set name is still unique when converting to label
 	    FlashCardList flashCardList = new FlashCardList(userName.getText());
-	    Set<String> existingSets = flashCardList.getUserSets();
+	    Set<String> existingSets = flashCardList.getUserSetNames();
 	    String originalSetName = text;
 	    int suffix = 1;
 
@@ -206,7 +215,7 @@ public class NextSceneController {
 		if (!newName.isEmpty() && !newName.equals(oldName)) {
 			// Ensuring the set name is still unique when converting to label
 		    FlashCardList flashCardList = new FlashCardList(userName.getText());
-		    Set<String> existingSets = flashCardList.getUserSets();
+		    Set<String> existingSets = flashCardList.getUserSetNames();
 		    String originalSetName = newName;
 		    int suffix = 1;
 
@@ -265,6 +274,8 @@ public class NextSceneController {
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
 		File csvFile = fileChooser.showOpenDialog(null);
 		if (csvFile != null) {
+			
+			
 			// Handle CSV file
 		}
 	}
@@ -289,6 +300,40 @@ public class NextSceneController {
 			e.printStackTrace();
 			System.out.println("Failed to log out and return to the main scene.");
 		}
+	}
+	
+	@FXML
+	private void sortSetByName() {
+		FlashCardList flashCardList = new FlashCardList(userName.getText());
+//		System.out.println("Debug - userName: " + userName.getText());
+		Set<SetCard> sets = flashCardList.getUserSets();
+		
+	    List<SetCard> sortedSets = new ArrayList<>(sets);
+	    
+	    flashCardList.sortByName(sortedSets);
+	    
+	    
+	    setsContainer.getChildren().clear();
+
+	    // Now display each set
+	    sortedSets.forEach(this::displaySet); 
+	}
+	
+	@FXML
+	private void sortSetByDate() {
+		FlashCardList flashCardList = new FlashCardList(userName.getText());
+//		System.out.println("Debug - userName: " + userName.getText());
+		Set<SetCard> sets = flashCardList.getUserSets();
+		
+	    List<SetCard> sortedSets = new ArrayList<>(sets);
+	    
+	    flashCardList.sortByTime(sortedSets);
+	    
+	    
+	    setsContainer.getChildren().clear();
+
+	    // Now display each set
+	    sortedSets.forEach(this::displaySet); 
 	}
 
 }
