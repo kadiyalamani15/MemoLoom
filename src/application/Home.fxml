@@ -121,15 +121,15 @@
 						<ButtonBar>
 							<buttons>
 								<Button alignment="CENTER" mnemonicParsing="false"
-									text="Date" />
+									text="Date" onAction="#handleSortByDate"/>
 								<Button alignment="CENTER" mnemonicParsing="false"
-									text="Name" />
+									text="Name" onAction="#handleSortByName"/>
 							</buttons>
 							<HBox.margin>
 								<Insets right="160.0" />
 							</HBox.margin>
 						</ButtonBar>
-						<Button mnemonicParsing="false" text="Select">
+						<!-- <Button mnemonicParsing="false" text="Select">
 							<HBox.margin>
 								<Insets right="8.0" top="12.0" />
 							</HBox.margin>
@@ -138,7 +138,7 @@
 							<HBox.margin>
 								<Insets right="8.0" top="12.0" />
 							</HBox.margin>
-						</Button>
+						</Button> -->
 					</children>
 					<VBox.margin>
 						<Insets left="20.0" right="20.0" />
