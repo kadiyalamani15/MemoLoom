@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane prefHeight="640" prefWidth="1024" style="-fx-background-color: #C9BBBB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+    <GridPane prefHeight="640" prefWidth="1024">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="60" />
+            <ColumnConstraints percentWidth="40" />
+        </columnConstraints>
+
+        <!-- Left Pane Content -->
+        <VBox fx:id="leftPane" style="-fx-background-color: #C9BBBB; -fx-padding: 44 48 44 56;" GridPane.columnIndex="0">
+            <Label style="-fx-font-family: 'Inter'; -fx-font-size: 36; -fx-padding: 0 0 16 0; -fx-font-weight: bold;" text="MemoLoom" />
+            
+            <VBox> <!-- Additional VBox for padding between elements -->
+                <Label style="-fx-font-family: 'Inter'; -fx-font-size: 20; -fx-padding: 0 0 8 0; -fx-font-weight: bold;" text="Discover A Brighter Way to Learn." />
+                <TextFlow>
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text="Dive into a seamless learning experience with " />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20; -fx-font-weight: bold;" text="MemoLoom" />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text=", your go-to digital flashcards app designed to make memorization not just effective but truly engaging. Whether you’re a student aiming for academic excellence, a professional looking to brush up on industry knowledge, or simply a curious mind eager to explore new realms, " />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20; -fx-font-weight: bold;" text="MemoLoom" />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text=" tailors your learning journey to fit your pace and preferences." />
+                </TextFlow>
+            </VBox>
+            
+            <VBox>
+                <TextFlow style="-fx-padding: 32 0 8 0;">
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text="Why " />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20; -fx-font-weight: bold;" text="MemoLoom" />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text="?" />
+                </TextFlow>
+                <!-- Bulleted List with Mixed Styling -->
+                <TextFlow>
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text="• " />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20; -fx-font-weight: bold;" text="Customizable Learning Paths:" />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text=" Create, customize, and share flashcards that cater to your unique learning needs." />
+                </TextFlow> 
+                <TextFlow>
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text="• " />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20; -fx-font-weight: bold;" text="Progress Tracking:" />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text=" Watch your knowledge grow with our intuitive progress trackers and performance analytics." />
+                </TextFlow>
+                <TextFlow>
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text="• " />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20; -fx-font-weight: bold;" text="Anywhere, Anytime:" />
+                    <Text style="-fx-font-family: 'Inter'; -fx-font-size: 20;" text=" Your learning doesn’t have to stop. With MemoLoom, take your flashcards on the go and turn downtime into a productive learning session." />
+                </TextFlow>
+            </VBox>
+        </VBox>
+
+         <!-- Right Pane Placeholder -->
+        <VBox spacing="10" style="-fx-background-color: #C9BBBB; -fx-padding: 100 56 44 0;" GridPane.columnIndex="1">
+            <Label style="-fx-font-family: 'Inter'; -fx-font-size: 20; -fx-padding: 0 0 8 0; -fx-font-weight: bold;" text="Ready to Transform Your Learning Experience?" wrapText="true" />
+            <Label style="-fx-font-size: 18;" text="New Here?" />
+            <VBox alignment="CENTER" spacing="5" style="-fx-font-size: 16;">
+                <TextField fx:id="usernameTextField" promptText="Name" />
+                <TextField promptText="Email" />
+                <PasswordField promptText="Password" />
+                <PasswordField promptText="Confirm Password" />
+                <Button onAction="#handleSignUpAction" style="-fx-background-color: #A6808C;" text="Sign Up">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="12.0" left="24.0" right="24.0" top="12.0" />
+               </padding></Button>
+            </VBox>
+            <Label style="-fx-font-size: 18;" text="Already Part of the Journey?"/>
+            <HBox spacing="10" style="-fx-padding: 10;" alignment="CENTER">
+                <Button style="-fx-background-color: #A6808C;" text="Facebook" />
+                <Button style="-fx-background-color: #A6808C;" text="Google" />
+                <Button style="-fx-background-color: #A6808C;" text="Apple" />
+            </HBox>
+        </VBox>
+      <rowConstraints>
+         <RowConstraints />
+      </rowConstraints>
+    </GridPane>
+</AnchorPane>
