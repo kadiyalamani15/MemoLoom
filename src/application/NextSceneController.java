@@ -24,6 +24,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 public class NextSceneController {
@@ -34,6 +36,7 @@ public class NextSceneController {
 	private FlowPane setsFlowPane; // Container for sets
 	@FXML
 	private Button addButton; // Button for adding new sets
+	private boolean sortByDate = true;  // Default sorting by date
 
 	private static String name;
 
@@ -43,21 +46,39 @@ public class NextSceneController {
 		userName.setText(name);
 		loadUserSets();
 	}
+	
+	@FXML
+    private void handleSortByName() {
+        sortByDate = false;
+        setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
+        loadUserSets();
+    }
+
+    @FXML
+    private void handleSortByDate() {
+        sortByDate = true;
+        setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
+        loadUserSets();
+    }
 
 	// Initializes the controller and setups up the add button
 	public void initialize() {
 		setupAddButtonMenu();
 	}
 
-	// Load and display sets corresponding to the userName
+	// Load and display sets with default sorting by date
 	private void loadUserSets() {
-//		System.out.println("Debug - Fired loadUserSets");
-		FlashCardList flashCardList = new FlashCardList(userName.getText());
-//		System.out.println("Debug - userName: " + userName.getText());
-		Set<String> sets = flashCardList.getUserSets();
-//		System.out.println(sets);
-		sets.forEach(this::displaySet); // Display each set
-	}
+        FlashCardList flashCardList = new FlashCardList(userName.getText());
+		List<SetDetails> setDetails = flashCardList.getUserSets();
+//        System.out.println("Debug - Sorting by Date: " + sortByDate);
+        if (sortByDate) {
+            setDetails.sort(Comparator.comparing(SetDetails::getTimestamp));
+        } else {
+            setDetails.sort(Comparator.comparing(SetDetails::getSetName));
+        }
+
+        setDetails.forEach(details -> displaySet(details.getSetName()));
+    }
 
 	// Display a set visually in the setsFlowPane
 	private void displaySet(String setName) {
@@ -139,34 +160,33 @@ public class NextSceneController {
 			});
 		}
 	}
-	
+
 	// Converts a TextField to a Label after editing and adds the set name to CSV
 	private void convertToLabel(TextField setNameField, VBox parentBox) {
-	    String text = setNameField.getText().trim();
+		String text = setNameField.getText().trim();
 
-	    Label setLabel = new Label(text);
-	    setLabel.setMinSize(106, 20);
-	    setLabel.setAlignment(Pos.CENTER);
-	    parentBox.getChildren().set(1, setLabel);
+		Label setLabel = new Label(text);
+		setLabel.setMinSize(106, 20);
+		setLabel.setAlignment(Pos.CENTER);
+		parentBox.getChildren().set(1, setLabel);
 
-	    // Ensuring the set name is still unique when converting to label
-	    FlashCardList flashCardList = new FlashCardList(userName.getText());
-	    Set<String> existingSets = flashCardList.getUserSets();
-	    String originalSetName = text;
-	    int suffix = 1;
+		// Ensuring the set name is still unique when converting to label
+		FlashCardList flashCardList = new FlashCardList(userName.getText());
+		List<SetDetails> existingSets = flashCardList.getUserSets();
+		final String[] effectiveName = {text};  // Use an array to hold the name for mutability
+		int suffix = 1;
 
-	    while (existingSets.contains(text)) {
-	        text = originalSetName + suffix++;
+		// Check if set name already exists and adjust accordingly
+	    while (existingSets.stream().anyMatch(set -> set.getSetName().equals(effectiveName[0]))) {
+	        effectiveName[0] = text + " " + suffix++;  // Update the name using the array
 	    }
 
-	    setLabel.setText(text);
+	    setLabel.setText(effectiveName[0]);
 
-	    // Add set to CSV
-	    flashCardList.addSet(text);
+	    flashCardList.addSet(effectiveName[0]);
 	}
 
-	// Method to display a context menu for a set box, compatible with Label and
-	// TextField
+	// Method to display a context menu for a set box, compatible with Label and TextField
 	private void showContextMenu(VBox setBox, Control control, double x, double y) {
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem openItem = new MenuItem("Open");
@@ -189,43 +209,44 @@ public class NextSceneController {
 	}
 
 	private void renameSet(VBox setBox, Control control) {
-	    String currentName = (control instanceof Label) ? ((Label) control).getText() : ((TextField) control).getText();
+		String currentName = (control instanceof Label) ? ((Label) control).getText() : ((TextField) control).getText();
 
-	    TextField setNameField = new TextField(currentName);
-	    setNameField.setMaxWidth(106);
-	    setBox.getChildren().set(1, setNameField);
-	    setNameField.requestFocus();
+		TextField setNameField = new TextField(currentName);
+		setNameField.setMaxWidth(106);
+		setBox.getChildren().set(1, setNameField);
+		setNameField.requestFocus();
 
-	    setNameField.setOnAction(e -> finalizeSetName(setNameField, setBox, currentName));
+		setNameField.setOnAction(e -> finalizeSetName(setNameField, setBox, currentName));
 	}
-
 
 	// Method to handle finalization of set naming
 	private void finalizeSetName(TextField setNameField, VBox setBox, String oldName) {
-		String newName = setNameField.getText().trim();
-		if (!newName.isEmpty() && !newName.equals(oldName)) {
-			// Ensuring the set name is still unique when converting to label
-		    FlashCardList flashCardList = new FlashCardList(userName.getText());
-		    Set<String> existingSets = flashCardList.getUserSets();
-		    String originalSetName = newName;
-		    int suffix = 1;
+	    String inputName = setNameField.getText().trim();
+	    if (!inputName.isEmpty() && !inputName.equals(oldName)) {
+	        FlashCardList flashCardList = new FlashCardList(userName.getText());
+	        List<SetDetails> existingSets = flashCardList.getUserSets();
+	        final String[] newName = {inputName};  // Use an array to allow modifications
+	        int suffix = 1;
 
-		    while (existingSets.contains(newName)) {
-		        newName = originalSetName + suffix++;
-		    }
-			Label newLabel = new Label(newName);
-			
-			newLabel.setMaxWidth(106);
-			setBox.getChildren().set(1, newLabel);
-			
-			flashCardList.renameSet(oldName, newName);
-			
-			// Refresh the set display to ensure UI consistency
-			setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
+	        // Check for duplicates and adjust name if necessary
+	        while (existingSets.stream().anyMatch(set -> set.getSetName().equals(newName[0]))) {
+	            newName[0] = inputName + " " + suffix++;  // Update the name using the array
+	        }
+
+	        Label newLabel = new Label(newName[0]);
+	        newLabel.setMaxWidth(106);
+	        setBox.getChildren().set(1, newLabel);
+
+	        // Rename the set in the FlashCardList
+	        flashCardList.renameSet(oldName, newName[0]);
+
+	        // Refresh the UI to reflect changes
+	        setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
 	        loadUserSets();
-		} else {
-			setBox.getChildren().set(1, new Label(oldName));
-		}
+	    } else {
+	        // If no change in name or name is empty, revert to old name
+	        setBox.getChildren().set(1, new Label(oldName));
+	    }
 	}
 
 	// Method to handle the deletion of a set
