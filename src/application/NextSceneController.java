@@ -35,7 +35,10 @@ public class NextSceneController {
 	@FXML
 	private FlowPane setsFlowPane; // Container for sets
 	@FXML
-	private Button addButton; // Button for adding new sets
+	private Button addButton = new Button("+"); // Button for adding new sets
+	@FXML
+	private TextField searchTextField; //Text Area for Set Search
+	
 	private boolean sortByDate = true;  // Default sorting by date
 
 	private static String name;
@@ -63,11 +66,39 @@ public class NextSceneController {
 
 	// Initializes the controller and setups up the add button
 	public void initialize() {
+//		appendNewSetBox();
 		setupAddButtonMenu();
 	}
+	
+	@FXML
+    private void appendNewSetBox() {
+        // Create the new Button
+		
+//        Button addButton = new Button("+");
+        System.out.print(addButton.getText());
+        addButton.setStyle("-fx-border-style: dashed; -fx-border-color: black; -fx-background-color: transparent; -fx-pref-width: 106; -fx-pref-height: 105; fx-id:addButtonBox");
+        
+
+        // Create the TextField
+        TextField hiddenTextField = new TextField();
+        hiddenTextField.setStyle("-fx-opacity:0");
+
+        // Create the VBox container
+        VBox addButtonBox = new VBox();
+        addButtonBox.setAlignment(Pos.CENTER); // Make sure to import Pos if not already imported
+        addButtonBox.getChildren().addAll(addButton, hiddenTextField);
+
+        // Add the VBox to the FlowPane
+        setsFlowPane.getChildren().add(addButtonBox);
+    }
 
 	// Load and display sets with default sorting by date
+	@FXML
 	private void loadUserSets() {
+		
+		setsFlowPane.getChildren().clear();
+		
+		appendNewSetBox();
         FlashCardList flashCardList = new FlashCardList(userName.getText());
 		List<SetDetails> setDetails = flashCardList.getUserSets();
 //        System.out.println("Debug - Sorting by Date: " + sortByDate);
@@ -96,6 +127,7 @@ public class NextSceneController {
 
 	// Sets up the context menu for the add button with options
 	private void setupAddButtonMenu() {
+		
 		ContextMenu addMenu = new ContextMenu();
 		MenuItem createFlashCardsItem = new MenuItem("Create FlashCards");
 		createFlashCardsItem.setOnAction(e -> handleAddSet());
@@ -311,5 +343,21 @@ public class NextSceneController {
 			System.out.println("Failed to log out and return to the main scene.");
 		}
 	}
+	
+	@FXML
+	private void handleSearch() {
+		
+		String searchText = searchTextField.getText();
+		
+		System.out.println(searchText);
+        FlashCardList flashCardList = new FlashCardList(userName.getText());
+        setsFlowPane.getChildren().clear();
+		List<SetDetails> setDetails = flashCardList.getSetsBasedonSearch(searchText);
+//        System.out.println("Debug - Sorting by Date: " + sortByDate);
+        
+
+        setDetails.forEach(details -> displaySet(details.getSetName()));
+    }
+	
 
 }
