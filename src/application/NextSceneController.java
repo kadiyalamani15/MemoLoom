@@ -53,7 +53,6 @@ public class NextSceneController {
 	@FXML
     private void handleSortByName() {
         sortByDate = false;
-//        System.out.println("Name");
         setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
         loadUserSets();
     }
@@ -109,7 +108,6 @@ public class NextSceneController {
             setDetails.sort(Comparator.comparing(SetDetails::getSetName));
         }
 
-        System.out.println(setDetails.get(0));
         setDetails.forEach(details -> displaySet(details.getSetName()));
     }
 
@@ -301,8 +299,26 @@ public class NextSceneController {
 			Parent root = loader.load();
 
 			FlashcardController flashcardController = loader.getController();
-			flashcardController.setUser(userName.getText());
 			flashcardController.initializeFlashcards(userName.getText(), setName); // Pass username and set name to
+																					// FlashcardController
+
+			Scene scene = new Scene(root);
+			Stage stage = (Stage) setsFlowPane.getScene().getWindow();
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void openBookmark() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Flashcard.fxml"));
+			Parent root = loader.load();
+
+			FlashcardController flashcardController = loader.getController();
+			flashcardController.initializeFlashcards(userName.getText(), "" ,true); // Pass username and set name to
 																					// FlashcardController
 
 			Scene scene = new Scene(root);

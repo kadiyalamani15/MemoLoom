@@ -49,35 +49,38 @@ public class FlashCardList {
 	public FlashCardList(String user) {
 		this.user = user;
 	}
-
+	
 	public List<SetDetails> getUserSets() {
-		Map<String, SetDetails> uniqueSets = new HashMap<>();
-		try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				if (line.trim().isEmpty() || line.matches("^,+$")) {
-					System.out.println("Skipping line: " + line);
-					continue;
-				}
-				String[] values = parseCsvLine(line);
-				System.out.println("Debug - User: " + this.user + " Line User: " + values[0]);
-				if (values.length > 2 && values[0].equals(this.user) && !values[1].isEmpty()) {
-					try {
-						LocalDateTime timestamp = LocalDateTime.parse(values[2], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-						if (!uniqueSets.containsKey(values[1])) { // Check if the set name already exists
-							uniqueSets.put(values[1], new SetDetails(values[1], timestamp));
-						}
-					} catch (Exception e) {
-						System.out.println("Error parsing date for line: " + line + " Error: " + e.getMessage());
-					}
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Total sets found: " + uniqueSets.size());
-		return new ArrayList<>(uniqueSets.values()); // Convert the values to a list to return
+	    Map<String, SetDetails> uniqueSets = new HashMap<>();
+	    try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            if (line.trim().isEmpty() || line.matches("^,+$")) {
+	                System.out.println("Skipping line: " + line);
+	                continue;
+	            }
+	            String[] values = parseCsvLine(line);
+	            System.out.println("Debug - User: " + this.user + " Line User: " + values[0]);
+	            if (values.length > 2 && values[0].equals(this.user) && !values[1].isEmpty()) {
+	                try {
+	                    LocalDateTime timestamp = LocalDateTime.parse(values[2], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+	                    if (!uniqueSets.containsKey(values[1])) {  // Check if the set name already exists
+	                        uniqueSets.put(values[1], new SetDetails(values[1], timestamp));
+	                    }
+	                } catch (Exception e) {
+	                    System.out.println("Error parsing date for line: " + line + " Error: " + e.getMessage());
+	                }
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    System.out.println("Total sets found: " + uniqueSets.size());
+	    return new ArrayList<>(uniqueSets.values());  // Convert the values to a list to return
 	}
+
+
+
 
 	// Method to load flashcards filtered by username and set name
 	public void loadFlashCards(String setName) {
@@ -89,7 +92,8 @@ public class FlashCardList {
 					FlashCard card = new FlashCard(values[3], // question
 							values[4], // answer
 							values[0], // creator (userName)
-							values[1] // setName
+							values[1], // setName
+							values[5]
 					);
 					this.flashCards.put(card.getQuestion(), card);
 				}
@@ -113,11 +117,16 @@ public class FlashCardList {
 	public List<FlashCard> getAllCards() {
 		return new ArrayList<>(flashCards.values());
 	}
+	
+	public List<FlashCard> getAllBookmarkCards() {
+		Map<String, FlashCard> bookmarkedflashCards = loadBookmarkedFlashCards();
+		return new ArrayList<>(bookmarkedflashCards.values());
+	}
 
 	// Method to add a new set (only metadata)
 	public void addSet(String setName) {
 		String timestamp = LocalDateTime.now().toString();
-		String lineToAdd = String.format("\"%s\",\"%s\",\"%s\",,,", this.user, setName, timestamp);
+		String lineToAdd = String.format("\"%s\",\"%s\",\"%s\",,,,", this.user, setName, timestamp);
 		System.out.println("Debug - Adding line to CSV: " + lineToAdd);
 		ensureFileEndsWithNewLine();
 		try (PrintWriter out = new PrintWriter(new FileWriter(filePath, true))) {
@@ -156,8 +165,8 @@ public class FlashCardList {
 				String[] parts = parseCsvLine(line);
 				if (parts[0].equals(user) && parts[1].equals(oldName)) {
 					parts[1] = newName;
-					return String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"", parts[0], parts[1], parts[2], parts[3],
-							parts[4]);
+					return String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"", 
+						    parts[0], parts[1], parts[2], parts[3], parts[4], parts[5]);
 				}
 				return line;
 			}).collect(Collectors.toList());
@@ -223,5 +232,47 @@ public class FlashCardList {
 	    }
 	    System.out.println("Total sets found: " + uniqueSets.size());
 	    return new ArrayList<>(uniqueSets.values());  // Convert the values to a list to return
+	}
+	
+	public Map<String, FlashCard> loadBookmarkedFlashCards() {
+		Map<String, FlashCard> bookmarkedflashCards = new HashMap<>();
+		try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] values = parseCsvLine(line);
+				if (values[0].equals(this.user) && values[5].equals("True")) {
+					FlashCard card = new FlashCard(values[3], // question
+							values[4], // answer
+							values[0], // creator (userName)
+							values[1], // setName
+							values[5] // Bookmark
+					);
+					bookmarkedflashCards.put(card.getQuestion(), card);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return bookmarkedflashCards;
+	}
+	
+	public void updateBookmark(String setname, String questionName, String bookmark) {
+		List<String> fileContent;
+		try {
+			fileContent = Files.readAllLines(Paths.get(filePath));
+			List<String> newContent = fileContent.stream().map(line -> {
+				String[] parts = parseCsvLine(line);
+				if (parts[0].equals(user) && parts[1].equals(setname) && parts[3].equals(questionName)) {
+					parts[5] = bookmark;
+					return String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"", 
+						    parts[0], parts[1], parts[2], parts[3], parts[4], bookmark);
+				}
+				return line;
+			}).collect(Collectors.toList());
+			Files.write(Paths.get(filePath), newContent);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
