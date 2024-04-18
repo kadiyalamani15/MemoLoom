@@ -12,15 +12,17 @@ public class FlashCard {
 	private Boolean visited;
 	private String setName;
 	private LocalDateTime timestamp;
+	private String bookmark;
 
 	// Constructor including all fields
-	public FlashCard(String question, String answer, String creator, String setName) {
+	public FlashCard(String question, String answer, String creator, String setName, String bookmark) {
 		this.question = question;
 		this.answer = answer;
 //        this.example = example;
 		this.creator = creator;
 		this.visited = false;
 		this.setName = setName;
+		this.bookmark = bookmark;
 //        this.timestamp = parseTimestamp(timestampStr);
 	}
 
@@ -34,6 +36,14 @@ public class FlashCard {
 //            return null; // or handle more gracefully
 //        }
 //    }
+
+	public String getBookmark() {
+		return bookmark;
+	}
+
+	public void setBookmark(String bookmark) {
+		this.bookmark = bookmark;
+	}
 
 	// Getter and setter methods for new fields
 	public String getSetName() {
