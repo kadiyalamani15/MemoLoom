@@ -195,55 +195,33 @@ public class FlashCardList {
 		}
 		return false;
 	}
-
-	public void renameFlashCard(FlashCard oldFlashCard, FlashCard newFlashCard) {
-		List<String> fileContent;
-		try {
-			fileContent = Files.readAllLines(Paths.get(filePath));
-			List<String> newContent = fileContent.stream().map(line -> {
-				String[] parts = parseCsvLine(line);
-				if (parts[0].equals(user) && parts[1].equals(oldFlashCard.getSetName())
-						&& parts[3].equals(oldFlashCard.getQuestion())) {
-					parts[3] = newFlashCard.getQuestion();
-					parts[4] = newFlashCard.getAnswer();
-					return String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"", parts[0], parts[1], parts[2], parts[3],
-							parts[4]);
-				}
-				return line;
-			}).collect(Collectors.toList());
-			Files.write(Paths.get(filePath), newContent);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public boolean deleteQuestion(String questionName, String setName, String userName) {
-		boolean found = false;
-		List<String> lines = new ArrayList<>();
-		try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] values = parseCsvLine(line);
-				if (!(values[1].equals(setName) && values[0].equals(this.user) && values[3].equals(questionName))) {
-					lines.add(line);
-				} else {
-					found = true;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if (found) {
-			try (PrintWriter pw = new PrintWriter(new FileWriter(this.filePath))) {
-				for (String line : lines) {
-					pw.println(line);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return true;
-		}
-		return false;
-
+	
+	public List<SetDetails> getSetsBasedonSearch(String text) {
+	    Map<String, SetDetails> uniqueSets = new HashMap<>();
+	    try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            if (line.trim().isEmpty() || line.matches("^,+$")) {
+	                System.out.println("Skipping line: " + line);
+	                continue;
+	            }
+	            String[] values = parseCsvLine(line);
+	            System.out.println("Debug - User: " + this.user + " Line User: " + values[0]);
+	            if (values.length > 2 && values[0].equals(this.user) && !values[1].isEmpty() && values[1].startsWith(text)) {
+	                try {
+	                    LocalDateTime timestamp = LocalDateTime.parse(values[2], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+	                    if (!uniqueSets.containsKey(values[1])) {  // Check if the set name already exists
+	                        uniqueSets.put(values[1], new SetDetails(values[1], timestamp));
+	                    }
+	                } catch (Exception e) {
+	                    System.out.println("Error parsing date for line: " + line + " Error: " + e.getMessage());
+	                }
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    System.out.println("Total sets found: " + uniqueSets.size());
+	    return new ArrayList<>(uniqueSets.values());  // Convert the values to a list to return
 	}
 }

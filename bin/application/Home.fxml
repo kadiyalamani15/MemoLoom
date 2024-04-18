@@ -44,7 +44,7 @@
 					<Insets left="20.0" top="20.0" />
 				</VBox.margin>
 			</Label>
-			<Button text="Sets" VBox.vgrow="NEVER" onAction="#loadUserSets" >
+			<Button text="Sets" VBox.vgrow="NEVER">
 				<VBox.margin>
 					<Insets left="20.0" top="32.0" />
 				</VBox.margin>
@@ -59,6 +59,15 @@
 				</VBox.margin>
 				<padding>
 					<Insets bottom="12.0" left="32.0" right="32.0" top="12.0" />
+				</padding>
+			</Button>
+			<Button prefHeight="41.0" prefWidth="128.0" text="Search"
+				VBox.vgrow="NEVER">
+				<VBox.margin>
+					<Insets left="20.0" top="12.0" />
+				</VBox.margin>
+				<padding>
+					<Insets bottom="12.0" top="12.0" />
 				</padding>
 			</Button>
 			<Button prefHeight="41.0" prefWidth="128.0" text="Performance"
@@ -112,21 +121,24 @@
 						<ButtonBar>
 							<buttons>
 								<Button alignment="CENTER" mnemonicParsing="false"
-									text="Date" onAction="#handleSortByDate" />
+									text="Date" onAction="#handleSortByDate"/>
 								<Button alignment="CENTER" mnemonicParsing="false"
-									text="Name" onAction="#handleSortByName" />
+									text="Name" onAction="#handleSortByName"/>
 							</buttons>
 							<HBox.margin>
 								<Insets right="160.0" />
 							</HBox.margin>
 						</ButtonBar>
-						<TextField promptText="Search..." fx:id="searchTextField" HBox.hgrow="ALWAYS"
-							style="-fx-max-width: 200px;" />
-						<Button text="Search" onAction="#handleSearch" />
-						<!-- <Button mnemonicParsing="false" text="Select"> <HBox.margin> <Insets 
-							right="8.0" top="12.0" /> </HBox.margin> </Button> <Button mnemonicParsing="false" 
-							text="View"> <HBox.margin> <Insets right="8.0" top="12.0" /> </HBox.margin> 
-							</Button> -->
+						<!-- <Button mnemonicParsing="false" text="Select">
+							<HBox.margin>
+								<Insets right="8.0" top="12.0" />
+							</HBox.margin>
+						</Button>
+						<Button mnemonicParsing="false" text="View">
+							<HBox.margin>
+								<Insets right="8.0" top="12.0" />
+							</HBox.margin>
+						</Button> -->
 					</children>
 					<VBox.margin>
 						<Insets left="20.0" right="20.0" />
@@ -134,9 +146,12 @@
 				</HBox>
 			</children>
 			<FlowPane fx:id="setsFlowPane" hgap="10" vgap="10"
-				prefWrapLength="400"
-				style="-fx-background-color: D9D9D9; -fx-padding: 12 12 12 12;">
-
+				prefWrapLength="400" style="-fx-background-color: D9D9D9; -fx-padding: 12 12 12 12;">
+				<VBox fx:id="addButtonBox" alignment="CENTER">
+					<Button fx:id="addButton" text="+"
+						style="-fx-border-style: dashed; -fx-border-color: black; -fx-background-color: transparent; -fx-pref-width: 106; -fx-pref-height: 105;" />
+						<TextField style="-fx-opacity:0"/>
+				</VBox>
 			</FlowPane>
 		</VBox>
 	</GridPane>
