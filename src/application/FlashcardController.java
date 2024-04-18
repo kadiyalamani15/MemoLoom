@@ -8,6 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import application.FlashCardList;
 
@@ -29,9 +32,18 @@ public class FlashcardController {
 	@FXML
 	private Button prevButton;
 
+	@FXML
+	private HBox answerContainer;
+
 	private FlashCardList flashCardList;
 	private ArrayList<FlashCard> cards;
 	private int currentIndex = 0;
+
+	private String userName;
+
+	public void setUser(String newName) {
+		userName = newName;
+	}
 
 	public void initializeFlashcards(String user, String setName) {
 		flashCardList = new FlashCardList(user);
@@ -86,4 +98,78 @@ public class FlashcardController {
 			e.printStackTrace();
 		}
 	}
+
+	@FXML
+	private void editQuestion() {
+		questionTextArea.setEditable(true);
+		questionTextArea.requestFocus();
+
+		FlashCardList fclist = new FlashCardList(this.userName);
+
+		FlashCard oldFlashCard = new FlashCard(questionTextArea.getText(), answerLabel.getText(), this.userName,
+				setLabel.getText());
+		// Add key event filter to handle the Enter key press
+		questionTextArea.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+			if (event.getCode() == KeyCode.ENTER && event.isShiftDown() == false) {
+				questionTextArea.setEditable(false);
+				event.consume(); // Prevent the newline from being added
+				String newQuestion = questionTextArea.getText();
+				FlashCard newFlashCard = new FlashCard(newQuestion, answerLabel.getText(), this.userName,
+						setLabel.getText());
+				System.out.println(oldFlashCard.getSetName());
+				fclist.renameFlashCard(oldFlashCard, newFlashCard);
+
+			}
+		});
+
+	}
+
+	@FXML
+	private void editAnswer() {
+		// Create a new TextField initialized with the Label's current text
+		TextField textField = new TextField(answerLabel.getText());
+		answerContainer.getChildren().set(answerContainer.getChildren().indexOf(answerLabel), textField);
+		textField.requestFocus();
+
+		// Handle the Enter key press to finish editing
+		textField.setOnAction(event -> finishEdit(textField));
+
+	}
+
+	private void finishEdit(TextField editField) {
+		FlashCard oldFlashCard = new FlashCard(questionTextArea.getText(), answerLabel.getText(), this.userName,
+				setLabel.getText());
+		// Set the Label's text to the TextField's current content
+		System.out.println(oldFlashCard.getAnswer());
+		answerLabel.setText(editField.getText());
+		// Print the updated text
+		System.out.println("Updated Label Text: " + answerLabel.getText());
+		// Replace the TextField with the Label again in the UI
+		answerContainer.getChildren().set(answerContainer.getChildren().indexOf(editField), answerLabel);
+
+		FlashCard newFlashCard = new FlashCard(questionTextArea.getText(), answerLabel.getText(), this.userName,
+				setLabel.getText());
+		FlashCardList fcList = new FlashCardList(userName);
+		fcList.renameFlashCard(oldFlashCard, newFlashCard);
+
+	}
+	
+	@FXML
+	private void deleteQuestion() {
+		FlashCardList fcList = new FlashCardList(userName);
+		fcList.deleteQuestion(questionTextArea.getText(), setLabel.getText(), userName);
+		System.out.println(currentIndex);
+		cards.remove(currentIndex);
+		System.out.println(cards.size());
+		
+		if (currentIndex == cards.size()) {
+			currentIndex = currentIndex - 1;
+		}
+		currentIndex--;
+		if (cards.size() == 0) {
+			closeWindow();
+		}
+		handleNextAction();
+	}
+
 }
