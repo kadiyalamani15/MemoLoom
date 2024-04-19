@@ -275,4 +275,56 @@ public class FlashCardList {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public void renameFlashCard(FlashCard oldFlashCard, FlashCard newFlashCard) {
+		List<String> fileContent;
+		try {
+			fileContent = Files.readAllLines(Paths.get(filePath));
+			List<String> newContent = fileContent.stream().map(line -> {
+				String[] parts = parseCsvLine(line);
+				if (parts[0].equals(user) && parts[1].equals(oldFlashCard.getSetName())
+						&& parts[3].equals(oldFlashCard.getQuestion())) {
+					parts[3] = newFlashCard.getQuestion();
+					parts[4] = newFlashCard.getAnswer();
+					return String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"", parts[0], parts[1], parts[2], parts[3],
+							parts[4]);
+				}
+				return line;
+			}).collect(Collectors.toList());
+			Files.write(Paths.get(filePath), newContent);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public boolean deleteQuestion(String questionName, String setName, String userName) {
+		boolean found = false;
+		List<String> lines = new ArrayList<>();
+		try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] values = parseCsvLine(line);
+				if (!(values[1].equals(setName) && values[0].equals(this.user) && values[3].equals(questionName))) {
+					lines.add(line);
+				} else {
+					found = true;
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (found) {
+			try (PrintWriter pw = new PrintWriter(new FileWriter(this.filePath))) {
+				for (String line : lines) {
+					pw.println(line);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
+		return false;
+
+	}
 }
