@@ -1,7 +1,25 @@
-Manish,OOPS 1,2024-04-14T16:53:01.768078,"This concept allows new classes to be derived from existing classes. The derived class inherits all the features of the base class, enabling code reusability and the hierarchical organization of classes. It means that he derived class can be use the fields and methods of the base class, along with its own unique attributes. This relationship is fundamental in object-oriented programming, enabling more complex behaviours to be built upon simpler ones.",INHERITANCE
-Manish,OOPS 1,2024-04-14T16:53:01.768078,"This concept refers to the ability of different classes to respond the same message (or method call) in different ways. It is a core principle of object-oriented programming that allows objects of different classes to be treated as objects of a common superclass. The specific implementation that is executed depends on the object’s class. This allows for flexibility and the ability to define methods that do conceptually the same thing but operate on different types of data.",POLYMORPHISM
-Manish,DSA,2024-04-14T18:55:38.344119,,,
-Vishal,Testing,2024-04-14T18:56:01.381579,,,
-Vishal,Testing1,2024-04-14T18:56:05.478567,,,
-"Nidhi","Test","2024-04-14T18:56:40.191597","",""
-"Nidhi","testing1","2024-04-15T15:38:30.780686",,,
+Vishal,OOP Con,2024-04-14T18:55:38.344,What defines a class?,Blueprint,
+Vishal,OOP Con,2024-04-14T18:56:01.382,What is an object?,Instance,False
+Vishal,OOP Con,2024-04-14T18:56:05.479,Define inheritance.,Acquires properties,False
+"Vishal","OOP Con","2024-04-14T18:56:40.192","What is polymorphism?","Many forms","False"
+Vishal,OOP Con,2024-04-14T18:56:40.192,Define encapsulation.,Data hiding,False
+Vishal,OOP Con,2024-04-14T18:56:40.192,Purpose of abstraction?,Reduce complexity,False
+Vishal,OOP Con,2024-04-14T18:56:40.192,What is a constructor?,Initializes object,False
+Vishal,OOP Con,2024-04-14T18:56:40.192,What is a destructor?,Destroys instance,False
+Vishal,OOP Con,2024-04-14T18:56:40.192,What is method overloading?,"Same name, different parameters",False
+Vishal,OOP Con,2024-04-14T18:55:38.344,What is method overriding?,Replaces method,False
+"Vishal","OOP Con","2024-04-14T18:56:01.382","What defines a class's behavior?","Methods","False"
+Vishal,OOP Con,2024-04-14T18:56:05.479,What is a static method?,No instance needed,False
+Vishal,OOP Con,2024-04-14T18:56:40.192,Purpose of interfaces?,Define capabilities,False
+Vishal,OOP Con,2024-04-14T18:56:40.192,What is a superclass?,Parent class,False
+Vishal,OOP Con,2024-04-14T18:56:40.192,What is a subclass?,Derived class,False
+Vishal,Python Basics,2024-04-14T18:56:40.192,What is a variable in Python? Example a=1,A variable in Python is a reserved memory location to store values.,False
+Vishal,Python Basics,2024-04-14T18:56:40.192,How do you declare a function in Python?,A function in Python is declared using the 'def' keyword.,False
+Vishal,Data Structures,2024-04-14T18:56:40.192,What is a list in Python?,A list in Python is a collection which is ordered and changeable.,False
+Vishal,Data Structures,2024-04-14T18:55:38.344,What is a tuple in Python?,A tuple in Python is a collection which is ordered and immutable.,False
+Vishal,Algorithms,2024-04-14T18:56:01.382,Explain the binary search algorithm.,Binary search is a 'divide and conquer' algorithm that begins by comparing an input value to the middle element of the array.,False
+Vishal,Algorithms,2024-04-14T18:56:05.479,What is recursion?,Recursion is a method of solving problems where the solution to a problem depends on solutions to smaller instances of the same problem.,False
+Vishal,Networking,2024-04-14T18:56:40.192,What is TCP?,"TCP is a core protocol of the Internet Protocol Suite; it operates at a higher level, providing reliable, ordered, and error-checked delivery of a stream of bytes.",False
+Vishal,Networking,2024-04-14T18:56:40.192,What is UDP?,UDP is a communications protocol that facilitates the exchange of messages between computing devices in a network.,False
+Vishal,Databases,2024-04-14T18:56:40.192,What is SQL?,"SQL stands for Structured Query Language, and it's used for managing data held in a relational database management system.",False
+Vishal,Databases,2024-04-14T18:56:40.192,What is a primary key?,A primary key is a field in a table which uniquely identifies each row/record in that table.,False

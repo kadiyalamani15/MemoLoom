@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.CheckBox?>
 
 <VBox maxWidth="-Infinity" prefHeight="640.0" prefWidth="1024.0"
 	style="-fx-background-color: D9D9D9;"
@@ -46,7 +47,11 @@
 			onAction="#handlePrevAction" />
 		<Pane HBox.hgrow="ALWAYS" />
 
-		<Label fx:id="answerLabel" HBox.hgrow="NEVER" style="-fx-font-family: 'Inter'; -fx-font-size: 20;"/>
+		<VBox>
+			<Label fx:id="answerLabel" HBox.hgrow="NEVER"
+				style="-fx-font-family: 'Inter'; -fx-font-size: 20;" />
+			<CheckBox fx:id="statusCheckBox" text="Bookmark" style="-fx-font-family: 'Inter'; -fx-font-size: 16;" onAction="#handleBookmark"/>
+		</VBox>
 		<Pane HBox.hgrow="ALWAYS" />
 
 		<Button text="&gt;" HBox.hgrow="NEVER"
