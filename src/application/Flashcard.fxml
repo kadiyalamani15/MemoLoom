@@ -7,7 +7,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <VBox maxWidth="-Infinity" prefHeight="640.0" prefWidth="1024.0"
 	style="-fx-background-color: D9D9D9;"
@@ -33,6 +35,14 @@
 			editable="false" prefWidth="1000" prefHeight="200"
 			focusTraversable="false"
 			style="-fx-font-family:'Inter'; -fx-font-size: 16; -fx-text-alignment: center; -fx-alignment: center;">
+			<contextMenu>
+				<ContextMenu>
+					<items>
+						<MenuItem text="Edit" onAction="#editQuestion" />
+						<MenuItem text="Delete" onAction="#deleteQuestion"/>
+					</items>
+				</ContextMenu>
+			</contextMenu>
 			<VBox.margin>
 				<Insets top="20" right="20" bottom="0" left="20" />
 			</VBox.margin>
@@ -42,16 +52,21 @@
 	</VBox>
 
 	<!-- Bottom Area with Navigation and Keyword -->
-	<HBox>
+	<HBox fx:id="answerContainer">
 		<Button text="&lt;" HBox.hgrow="NEVER"
 			onAction="#handlePrevAction" />
 		<Pane HBox.hgrow="ALWAYS" />
 
-		<VBox>
-			<Label fx:id="answerLabel" HBox.hgrow="NEVER"
-				style="-fx-font-family: 'Inter'; -fx-font-size: 20;" />
-			<CheckBox fx:id="statusCheckBox" text="Bookmark" style="-fx-font-family: 'Inter'; -fx-font-size: 16;" onAction="#handleBookmark"/>
-		</VBox>
+		<Label fx:id="answerLabel" HBox.hgrow="NEVER"
+			style="-fx-font-family: 'Inter'; -fx-font-size: 20;">
+			<contextMenu>
+				<ContextMenu>
+					<items>
+						<MenuItem text="Edit" onAction="#editAnswer" />
+					</items>
+				</ContextMenu>
+			</contextMenu>
+		</Label>
 		<Pane HBox.hgrow="ALWAYS" />
 
 		<Button text="&gt;" HBox.hgrow="NEVER"
