@@ -1,18 +1,18 @@
-"Vishal","OOP Con","2024-04-14T18:55:38.344","What defines a class?","Blueprint","True"
-Vishal,OOP Con,2024-04-14T18:56:01.382,What is an object?,Instance,False
-Vishal,OOP Con,2024-04-14T18:56:05.479,Define inheritance.,Acquires properties,False
-"Vishal","OOP Con","2024-04-14T18:56:40.192","What is polymorphism?","Many forms","False"
-Vishal,OOP Con,2024-04-14T18:56:40.192,Define encapsulation.,Data hiding,False
-Vishal,OOP Con,2024-04-14T18:56:40.192,Purpose of abstraction?,Reduce complexity,False
-Vishal,OOP Con,2024-04-14T18:56:40.192,What is a constructor?,Initializes object,False
-Vishal,OOP Con,2024-04-14T18:56:40.192,What is a destructor?,Destroys instance,False
-Vishal,OOP Con,2024-04-14T18:56:40.192,What is method overloading?,"Same name, different parameters",False
-Vishal,OOP Con,2024-04-14T18:55:38.344,What is method overriding?,Replaces method,False
-"Vishal","OOP Con","2024-04-14T18:56:01.382","What defines a class's behavior?","Methods","False"
-Vishal,OOP Con,2024-04-14T18:56:05.479,What is a static method?,No instance needed,False
-Vishal,OOP Con,2024-04-14T18:56:40.192,Purpose of interfaces?,Define capabilities,False
-Vishal,OOP Con,2024-04-14T18:56:40.192,What is a superclass?,Parent class,False
-Vishal,OOP Con,2024-04-14T18:56:40.192,What is a subclass?,Derived class,False
+"Vishal","OOP Concepts","2024-04-14T18:55:38.344","What defines a class?","Blueprint","True"
+"Vishal","OOP Concepts","2024-04-14T18:56:01.382","What is an object?","Instance","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:05.479","Define inheritance.","Acquires properties","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:40.192","What is polymorphism?","Many forms","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:40.192","Define encapsulation.","Data hiding","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:40.192","Purpose of abstraction?","Reduce complexity","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:40.192","What is a constructor?","Initializes object","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:40.192","What is a destructor?","Destroys instance","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:40.192","What is method overloading?","Same name, different parameters","False"
+"Vishal","OOP Concepts","2024-04-14T18:55:38.344","What is method overriding?","Replaces method","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:01.382","What defines a class's behavior?","Methods","True"
+"Vishal","OOP Concepts","2024-04-14T18:56:05.479","What is a static method?","No instance needed","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:40.192","Purpose of interfaces?","Define capabilities","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:40.192","What is a superclass?","Parent class","False"
+"Vishal","OOP Concepts","2024-04-14T18:56:40.192","What is a subclass?","Derived class","False"
 Vishal,Python Basics,2024-04-14T18:56:40.192,What is a variable in Python? Example a=1,A variable in Python is a reserved memory location to store values.,False
 Vishal,Python Basics,2024-04-14T18:56:40.192,How do you declare a function in Python?,A function in Python is declared using the 'def' keyword.,False
 Vishal,Data Structures,2024-04-14T18:56:40.192,What is a list in Python?,A list in Python is a collection which is ordered and changeable.,False
@@ -23,3 +23,8 @@ Vishal,Networking,2024-04-14T18:56:40.192,What is TCP?,"TCP is a core protocol o
 Vishal,Networking,2024-04-14T18:56:40.192,What is UDP?,UDP is a communications protocol that facilitates the exchange of messages between computing devices in a network.,False
 Vishal,Databases,2024-04-14T18:56:40.192,What is SQL?,"SQL stands for Structured Query Language, and it's used for managing data held in a relational database management system.",False
 Vishal,Databases,2024-04-14T18:56:40.192,What is a primary key?,A primary key is a field in a table which uniquely identifies each row/record in that table.,False
+"Vishal","Testing3","2024-04-19T19:56:23.144906057","Sample Question","Sample ans","False"
+"Vishal","Testing3","2024-04-19T19:56:23.146867864","Sample Question 1","Sample ans","False"
+"Vishal","Testing3","2024-04-19T19:56:23.147121265","Sample Question 2","Sample ans","False"
+"Vishal","Testing3","2024-04-19T19:56:23.147346944","Sample Question 3","Sample ans","False"
+"Vishal","Testing3","2024-04-19T19:56:23.147667076","Sample Question 4","Sample ans","False"

@@ -50,6 +50,29 @@ public class FlashCardList {
 		this.user = user;
 	}
 	
+	public List<FlashCard> getAllFlashCards(){
+		Map<String, FlashCard> uniqueSets = new HashMap<>();
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] values = parseCsvLine(line);
+				if (values[0].equals(this.user)) {
+					FlashCard card = new FlashCard(values[3], // question
+							values[4], // answer
+							values[0], // creator (userName)
+							values[1], // setName
+							values[5]
+					);
+					uniqueSets.put(values[3], card);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>(uniqueSets.values());
+	}
+	
 	public List<SetDetails> getUserSets() {
 	    Map<String, SetDetails> uniqueSets = new HashMap<>();
 	    try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
@@ -273,6 +296,42 @@ public class FlashCardList {
 			Files.write(Paths.get(filePath), newContent);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void loadCSVFile(File csvfile) {
+		try (BufferedReader br = new BufferedReader(new FileReader(csvfile))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] values = parseCsvLine(line);
+				FlashCard card = new FlashCard(values[1], // question
+						values[2], // answer
+						this.user, // creator (userName)
+						values[0], // setName
+						"False");
+				addFlashcard(values[1], values[0], values[2]);
+				this.flashCards.put(card.getQuestion(), card);
+			}
+
+		} catch (
+
+		IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void addFlashcard(String questionName, String setName, String answer) {
+		String timestamp = LocalDateTime.now().toString();
+		String lineToAdd = String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"", this.user, setName, timestamp,
+				questionName, answer, "False");
+
+		System.out.println("Debug - Adding line to CSV: " + lineToAdd);
+		ensureFileEndsWithNewLine();
+		try (PrintWriter out = new PrintWriter(new FileWriter(filePath, true))) {
+			out.println(lineToAdd);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error writing to file: " + e.getMessage());
 		}
 	}
 	

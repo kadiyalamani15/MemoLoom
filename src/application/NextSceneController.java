@@ -37,9 +37,9 @@ public class NextSceneController {
 	@FXML
 	private Button addButton = new Button("+"); // Button for adding new sets
 	@FXML
-	private TextField searchTextField; //Text Area for Set Search
-	
-	private boolean sortByDate = true;  // Default sorting by date
+	private TextField searchTextField; // Text Area for Set Search
+
+	private boolean sortByDate = true; // Default sorting by date
 
 	private static String name;
 
@@ -49,67 +49,67 @@ public class NextSceneController {
 		userName.setText(name);
 		loadUserSets();
 	}
-	
-	@FXML
-    private void handleSortByName() {
-        sortByDate = false;
-        setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
-        loadUserSets();
-    }
 
-    @FXML
-    private void handleSortByDate() {
-        sortByDate = true;
-        setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
-        loadUserSets();
-    }
+	@FXML
+	private void handleSortByName() {
+		sortByDate = false;
+		setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
+		loadUserSets();
+	}
+
+	@FXML
+	private void handleSortByDate() {
+		sortByDate = true;
+		setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
+		loadUserSets();
+	}
 
 	// Initializes the controller and setups up the add button
 	public void initialize() {
 //		appendNewSetBox();
 		setupAddButtonMenu();
 	}
-	
+
 	@FXML
-    private void appendNewSetBox() {
-        // Create the new Button
-		
+	private void appendNewSetBox() {
+		// Create the new Button
+
 //        Button addButton = new Button("+");
-        System.out.print(addButton.getText());
-        addButton.setStyle("-fx-border-style: dashed; -fx-border-color: black; -fx-background-color: transparent; -fx-pref-width: 106; -fx-pref-height: 105; fx-id:addButtonBox");
-        
+		System.out.print(addButton.getText());
+		addButton.setStyle(
+				"-fx-border-style: dashed; -fx-border-color: black; -fx-background-color: transparent; -fx-pref-width: 106; -fx-pref-height: 105; fx-id:addButtonBox");
 
-        // Create the TextField
-        TextField hiddenTextField = new TextField();
-        hiddenTextField.setStyle("-fx-opacity:0");
+		// Create the TextField
+		TextField hiddenTextField = new TextField();
+		hiddenTextField.setStyle("-fx-opacity:0");
 
-        // Create the VBox container
-        VBox addButtonBox = new VBox();
-        addButtonBox.setAlignment(Pos.CENTER); // Make sure to import Pos if not already imported
-        addButtonBox.getChildren().addAll(addButton, hiddenTextField);
+		// Create the VBox container
+		VBox addButtonBox = new VBox();
+		addButtonBox.setAlignment(Pos.CENTER); // Make sure to import Pos if not already imported
+		addButtonBox.getChildren().addAll(addButton, hiddenTextField);
 
-        // Add the VBox to the FlowPane
-        setsFlowPane.getChildren().add(addButtonBox);
-    }
+		// Add the VBox to the FlowPane
+		setsFlowPane.getChildren().add(addButtonBox);
+	}
 
 	// Load and display sets with default sorting by date
 	@FXML
 	private void loadUserSets() {
-		
+
 		setsFlowPane.getChildren().clear();
-		
+
 		appendNewSetBox();
-        FlashCardList flashCardList = new FlashCardList(userName.getText());
+		FlashCardList flashCardList = new FlashCardList(userName.getText());
 		List<SetDetails> setDetails = flashCardList.getUserSets();
 //        System.out.println("Debug - Sorting by Date: " + sortByDate);
-        if (sortByDate) {
-            setDetails.sort(Comparator.comparing(SetDetails::getTimestamp));
-        } else {
-            setDetails.sort(Comparator.comparing(SetDetails::getSetName));
-        }
+		if (sortByDate) {
+			setDetails.sort(Comparator.comparing(SetDetails::getTimestamp));
+		} else {
+			setDetails.sort(Comparator.comparing(SetDetails::getSetName));
+		}
 
-        setDetails.forEach(details -> displaySet(details.getSetName()));
-    }
+		setDetails.forEach(details -> displaySet(details.getSetName()));
+	}
 
 	// Display a set visually in the setsFlowPane
 	private void displaySet(String setName) {
@@ -127,7 +127,7 @@ public class NextSceneController {
 
 	// Sets up the context menu for the add button with options
 	private void setupAddButtonMenu() {
-		
+
 		ContextMenu addMenu = new ContextMenu();
 		MenuItem createFlashCardsItem = new MenuItem("Create FlashCards");
 		createFlashCardsItem.setOnAction(e -> handleAddSet());
@@ -205,20 +205,21 @@ public class NextSceneController {
 		// Ensuring the set name is still unique when converting to label
 		FlashCardList flashCardList = new FlashCardList(userName.getText());
 		List<SetDetails> existingSets = flashCardList.getUserSets();
-		final String[] effectiveName = {text};  // Use an array to hold the name for mutability
+		final String[] effectiveName = { text }; // Use an array to hold the name for mutability
 		int suffix = 1;
 
 		// Check if set name already exists and adjust accordingly
-	    while (existingSets.stream().anyMatch(set -> set.getSetName().equals(effectiveName[0]))) {
-	        effectiveName[0] = text + " " + suffix++;  // Update the name using the array
-	    }
+		while (existingSets.stream().anyMatch(set -> set.getSetName().equals(effectiveName[0]))) {
+			effectiveName[0] = text + " " + suffix++; // Update the name using the array
+		}
 
-	    setLabel.setText(effectiveName[0]);
+		setLabel.setText(effectiveName[0]);
 
-	    flashCardList.addSet(effectiveName[0]);
+		flashCardList.addSet(effectiveName[0]);
 	}
 
-	// Method to display a context menu for a set box, compatible with Label and TextField
+	// Method to display a context menu for a set box, compatible with Label and
+	// TextField
 	private void showContextMenu(VBox setBox, Control control, double x, double y) {
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem openItem = new MenuItem("Open");
@@ -253,32 +254,32 @@ public class NextSceneController {
 
 	// Method to handle finalization of set naming
 	private void finalizeSetName(TextField setNameField, VBox setBox, String oldName) {
-	    String inputName = setNameField.getText().trim();
-	    if (!inputName.isEmpty() && !inputName.equals(oldName)) {
-	        FlashCardList flashCardList = new FlashCardList(userName.getText());
-	        List<SetDetails> existingSets = flashCardList.getUserSets();
-	        final String[] newName = {inputName};  // Use an array to allow modifications
-	        int suffix = 1;
+		String inputName = setNameField.getText().trim();
+		if (!inputName.isEmpty() && !inputName.equals(oldName)) {
+			FlashCardList flashCardList = new FlashCardList(userName.getText());
+			List<SetDetails> existingSets = flashCardList.getUserSets();
+			final String[] newName = { inputName }; // Use an array to allow modifications
+			int suffix = 1;
 
-	        // Check for duplicates and adjust name if necessary
-	        while (existingSets.stream().anyMatch(set -> set.getSetName().equals(newName[0]))) {
-	            newName[0] = inputName + " " + suffix++;  // Update the name using the array
-	        }
+			// Check for duplicates and adjust name if necessary
+			while (existingSets.stream().anyMatch(set -> set.getSetName().equals(newName[0]))) {
+				newName[0] = inputName + " " + suffix++; // Update the name using the array
+			}
 
-	        Label newLabel = new Label(newName[0]);
-	        newLabel.setMaxWidth(106);
-	        setBox.getChildren().set(1, newLabel);
+			Label newLabel = new Label(newName[0]);
+			newLabel.setMaxWidth(106);
+			setBox.getChildren().set(1, newLabel);
 
-	        // Rename the set in the FlashCardList
-	        flashCardList.renameSet(oldName, newName[0]);
+			// Rename the set in the FlashCardList
+			flashCardList.renameSet(oldName, newName[0]);
 
-	        // Refresh the UI to reflect changes
-	        setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
-	        loadUserSets();
-	    } else {
-	        // If no change in name or name is empty, revert to old name
-	        setBox.getChildren().set(1, new Label(oldName));
-	    }
+			// Refresh the UI to reflect changes
+			setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
+			loadUserSets();
+		} else {
+			// If no change in name or name is empty, revert to old name
+			setBox.getChildren().set(1, new Label(oldName));
+		}
 	}
 
 	// Method to handle the deletion of a set
@@ -310,7 +311,7 @@ public class NextSceneController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	private void openBookmark() {
 		try {
@@ -318,7 +319,7 @@ public class NextSceneController {
 			Parent root = loader.load();
 
 			FlashcardController flashcardController = loader.getController();
-			flashcardController.initializeFlashcards(userName.getText(), "" ,true); // Pass username and set name to
+			flashcardController.initializeFlashcards(userName.getText(), "", true); // Pass username and set name to
 																					// FlashcardController
 
 			Scene scene = new Scene(root);
@@ -337,6 +338,8 @@ public class NextSceneController {
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
 		File csvFile = fileChooser.showOpenDialog(null);
 		if (csvFile != null) {
+			FlashCardList fclist = new FlashCardList(name);
+			fclist.loadCSVFile(csvFile);
 			// Handle CSV file
 		}
 	}
@@ -345,7 +348,7 @@ public class NextSceneController {
 	public void logout() {
 		try {
 			// Load Main.fxml
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
 			Parent root = loader.load();
 
 			// Optionally, you can reset the username here or ensure it's handled
@@ -362,21 +365,45 @@ public class NextSceneController {
 			System.out.println("Failed to log out and return to the main scene.");
 		}
 	}
-	
+
 	@FXML
 	private void handleSearch() {
-		
+
 		String searchText = searchTextField.getText();
-		
+
 		System.out.println(searchText);
-        FlashCardList flashCardList = new FlashCardList(userName.getText());
-        setsFlowPane.getChildren().clear();
+		FlashCardList flashCardList = new FlashCardList(userName.getText());
+		setsFlowPane.getChildren().clear();
 		List<SetDetails> setDetails = flashCardList.getSetsBasedonSearch(searchText);
 //        System.out.println("Debug - Sorting by Date: " + sortByDate);
-        
 
-        setDetails.forEach(details -> displaySet(details.getSetName()));
-    }
-	
+		setDetails.forEach(details -> displaySet(details.getSetName()));
+	}
+
+	@FXML
+	private void handlePerformance() {
+		try {
+			// Load Home.fxml
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Performance.fxml"));
+			Parent root = loader.load();
+
+			// Retrieve the controller and set the user name
+			PerformanceController performanceController = loader.getController();
+			// Assuming 'userName' is a static field or there's a way to retrieve it
+			System.out.print(userName.getText());
+			performanceController.setUser(userName.getText());
+			performanceController.setLabel();
+
+			// Get the stage from an existing component
+			Stage stage = (Stage) setsFlowPane.getScene().getWindow();
+			stage.setTitle("Performance Statistics");
+			stage.setScene(new Scene(root));
+//			Stage stage = (Stage) questionTextArea.getScene().getWindow();
+//			stage.setScene(new Scene(root));
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
