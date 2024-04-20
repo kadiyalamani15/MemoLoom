@@ -57,7 +57,7 @@ public class FlashCardList {
 			String line;
 			while ((line = br.readLine()) != null) {
 				String[] values = parseCsvLine(line);
-				if (values[0].equals(this.user)) {
+				if (checkCardCondition(values)) {
 					FlashCard card = new FlashCard(values[3], // question
 							values[4], // answer
 							values[0], // creator (userName)
@@ -71,6 +71,10 @@ public class FlashCardList {
 			e.printStackTrace();
 		}
 		return new ArrayList<>(uniqueSets.values());
+	}
+
+	private boolean checkCardCondition(String[] values) {
+		return values[0].equals(this.user) && !values[3].isEmpty() && !values[3].isBlank() && !values[1].isEmpty() && !values[1].isBlank();
 	}
 	
 	public List<SetDetails> getUserSets() {

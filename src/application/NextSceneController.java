@@ -53,15 +53,19 @@ public class NextSceneController {
 	@FXML
 	private void handleSortByName() {
 		sortByDate = false;
-		setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
-		loadUserSets();
+		if (setsFlowPane.getChildren().size() >= 1) {
+			setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
+			loadUserSets();
+		}
 	}
 
 	@FXML
 	private void handleSortByDate() {
 		sortByDate = true;
-		setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
-		loadUserSets();
+		if (setsFlowPane.getChildren().size() >= 1) {
+			setsFlowPane.getChildren().remove(1, setsFlowPane.getChildren().size());
+			loadUserSets();
+		}
 	}
 
 	// Initializes the controller and setups up the add button
@@ -135,7 +139,7 @@ public class NextSceneController {
 		MenuItem importFromCSVItem = new MenuItem("Import from CSV");
 		importFromCSVItem.setOnAction(e -> handleImportCSV());
 
-		addMenu.getItems().addAll(createFlashCardsItem, importFromCSVItem);
+		addMenu.getItems().addAll(importFromCSVItem);
 		addButton.setOnMouseClicked(e -> {
 			if (e.getButton() == MouseButton.PRIMARY) {
 				addMenu.show(addButton, e.getScreenX(), e.getScreenY());
