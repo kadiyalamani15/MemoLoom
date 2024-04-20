@@ -52,12 +52,12 @@
 	</VBox>
 
 	<!-- Bottom Area with Navigation and Keyword -->
-	<HBox>
+	<HBox alignment="CENTER">
 		<Button text="&lt;" HBox.hgrow="NEVER"
 			onAction="#handlePrevAction" />
 		<Pane HBox.hgrow="ALWAYS" />
 
-		<VBox>
+		<VBox alignment="CENTER">
 			<Label fx:id="answerLabel" HBox.hgrow="NEVER"
 				style="-fx-font-family: 'Inter'; -fx-font-size: 20;" >
 			<contextMenu>
@@ -68,7 +68,7 @@
 				</ContextMenu>
 			</contextMenu>
 			</Label>
-			<CheckBox fx:id="statusCheckBox" text="Bookmark"
+			<CheckBox fx:id="statusCheckBox" text="Bookmark" alignment="CENTER"
 				style="-fx-font-family: 'Inter'; -fx-font-size: 16;"
 				onAction="#handleBookmark" />
 		</VBox>
